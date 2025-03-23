@@ -1,6 +1,7 @@
 import pygame
 from os import path
 
+dialogue_active = False
 dt = 0
 
 class Player(pygame.sprite.Sprite) :
@@ -15,6 +16,9 @@ class Player(pygame.sprite.Sprite) :
         self.speed = 320
 
     def player_input(self) :
+        if dialogue_active:  # Prevent movement when in dialogue
+            return
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
             self.pos.y -= self.speed * dt

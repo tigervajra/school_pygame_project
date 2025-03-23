@@ -31,33 +31,33 @@ dialogue_text = None
 npc_tile_positions = {}
 
 # map
-npc_tile_positions = {}  # ✅ Dictionary to store multi-tile NPCs
+npc_tile_positions = {}  # Dictionary to store multi-tile NPCs
 
 for x, y, gid in layer_draw_below:
     tile = tmxdata.get_tile_image_by_gid(gid)
     if tile:
-        tile_props = tmxdata.get_tile_properties_by_gid(gid)  # ✅ Get properties from the tile itself
+        tile_props = tmxdata.get_tile_properties_by_gid(gid)  # Get properties from the tile itself
 
-        is_solid = tile_props.get("solid", False) if tile_props else False  # ✅ Read solidity correctly
+        is_solid = tile_props.get("solid", False) if tile_props else False  # Read solidity correctly
 
-        if tile_props and "npc" in tile_props:  # ✅ Check if tile has "npc" property
+        if tile_props and "npc" in tile_props:  # Check if tile has "npc" property
             npc_name = tile_props["npc"]  # NPC identifier (e.g., "Test")
 
             if npc_name not in npc_tile_positions:
-                npc_tile_positions[npc_name] = []  # ✅ Initialize list if missing
+                npc_tile_positions[npc_name] = []  # Initialize list if missing
 
-            # ✅ Store tile along with solidity
+            # Store tile along with solidity
             npc_tile_positions[npc_name].append(
                 (tile, (x * tmxdata.tilewidth, y * tmxdata.tileheight), is_solid)
             )
 
-        # ✅ Add the tile to the world as a solid or non-solid object
+        # Add the tile to the world as a solid or non-solid object
         tiles_below.add(classes.Tile(tile, (x * tmxdata.tilewidth, y * tmxdata.tileheight), is_solid))
 
-# ✅ Ensure `npcs` is defined before adding NPCs
+# Ensure `npcs` is defined before adding NPCs
 npcs = pygame.sprite.Group()
 
-# ✅ Create NPCs from stored multi-tile data
+# Create NPCs from stored multi-tile data
 for npc_name, tile_data in npc_tile_positions.items():
     if isinstance(tile_data, list) and all(isinstance(t, tuple) for t in tile_data):
         images, positions, solid_flags = zip(*tile_data)
@@ -70,31 +70,29 @@ for npc_name, tile_data in npc_tile_positions.items():
         tile_gid = tmxdata.get_tile_gid(tile_x, tile_y, layer_index)
         tile_props = tmxdata.get_tile_properties_by_gid(tile_gid) if tile_gid else {}
 
-        # ✅ Default dialogue in case file loading fails
+        # Default dialogue in case file loading fails
         dialogue_text = ["I have nothing to say."]
 
-        # ✅ Check if "dialogue" exists in Tiled properties
+        # Check if "dialogue" exists in Tiled properties
         if "dialogue" in tile_props:
             file_path = path.join("data", tile_props["dialogue"])  # ✅ Correct path
 
-            # ✅ Ensure the path is safe and properly formatted
+            # Ensure the path is safe and properly formatted
             file_path = path.normpath(file_path)
 
             try:
                 with open(file_path, "r", encoding="utf-8") as file:
                     dialogue_text = file.read().splitlines()  # ✅ Read file as a list of dialogue lines
             except FileNotFoundError:
-                print(f"❌ Warning: Dialogue file '{file_path}' not found!")
+                print(f"Warning: Dialogue file '{file_path}' not found!")
 
-        # ✅ Create NPC with file-based dialogue
+        # Create NPC with file-based dialogue
         npc_instance = classes.NPC(list(images), list(positions), npc_name, dialogue_text)
         npcs.add(npc_instance)
 
         for img, pos, is_solid in tile_data:
             if is_solid:
                 tiles_below.add(classes.Tile(img, pos, True))
-
-        print(f"✅ Created NPC: {npc_name} with dialogue: {dialogue_text}")  # ✅ Debug output
 
 for x, y, gid in layer_draw_ontop :
     tile = tmxdata.get_tile_image_by_gid(gid)
@@ -160,12 +158,16 @@ while True:
                 title = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:  # Press 'E' to interact
-                    if npc and npc.interacting:
-                        dialogue_text = npc.next_dialogue()  # ✅ Advance dialogue if ongoing
+                    if npc and npc.interacting:  # Ensure npc is not None
+                        dialogue_text = npc.next_dialogue()
+                        if npc and not npc.interacting:  # Check again before setting dialogue_active
+                            player.dialogue_active = False  # Unfreeze player when dialogue ends
                     else:
-                        npc = check_collision_npcs(player_char, npcs)  # ✅ Detect NPC
+                        npc = check_collision_npcs(player_char, npcs)  # Detect NPC
                         if npc:
                             dialogue_text = npc.start_interaction()
+                            player.dialogue_active = True  # Freeze player during dialogue
+
 
     if (not pause and not title) :
         screen.fill("purple")
@@ -187,7 +189,7 @@ while True:
         tiles_top.draw(screen)
 
         if npc and npc.interacting:
-            draw_dialogue_box(screen, dialogue_text, test_font)  # ✅ Draw the dialogue box every frame
+            draw_dialogue_box(screen, dialogue_text, test_font)  # Draw the dialogue box every frame
 
         # collision
         # draw collision before update
