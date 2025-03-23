@@ -16,6 +16,21 @@
    <property name="solid" type="bool" value="false"/>
   </properties>
  </tile>
+ <tile id="3">
+  <properties>
+   <property name="npc" value="test"/>
+  </properties>
+ </tile>
+ <tile id="4">
+  <properties>
+   <property name="npc" value="test"/>
+  </properties>
+ </tile>
+ <tile id="5">
+  <properties>
+   <property name="npc" value="test"/>
+  </properties>
+ </tile>
  <tile id="6">
   <properties>
    <property name="solid" type="bool" value="true"/>
@@ -31,6 +46,27 @@
    <property name="solid" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="9">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
+   <property name="solid" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="10">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="11">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
+   <property name="solid" type="bool" value="false"/>
+  </properties>
+ </tile>
  <tile id="12">
   <properties>
    <property name="solid" type="bool" value="true"/>
@@ -44,6 +80,24 @@
  <tile id="14">
   <properties>
    <property name="solid" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="15">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
+  </properties>
+ </tile>
+ <tile id="16">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="dialogue" type="file" value="dialogues/test_npc.txt"/>
+   <property name="npc" value="test"/>
   </properties>
  </tile>
 </tileset>
