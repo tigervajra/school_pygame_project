@@ -23,7 +23,6 @@ tiles_below = pygame.sprite.Group()
 
 layer_draw_below = tmxdata.get_layer_by_name("draw_below")
 layer_draw_ontop = tmxdata.get_layer_by_name("draw_ontop")
-data_layer = tmxdata.get_layer_by_name("Data")
 
 npc = None
 dialogue_text = None
