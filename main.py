@@ -1,5 +1,5 @@
 import pygame
-import classes, player
+import classes, player, gamemode2
 from pytmx.util_pygame import load_pygame
 from os import path
 from sys import exit
@@ -15,8 +15,7 @@ clock = pygame.time.Clock()
 test_font = pygame.font.Font(None, 50)
 
 player_char = pygame.sprite.GroupSingle()
-player_char.add(player.Player())
-player_char.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+player_char.add(player.Player(False, pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)))
 
 tiles_top = pygame.sprite.Group()
 tiles_below = pygame.sprite.Group()
@@ -135,6 +134,8 @@ def draw_dialogue_box(screen, text, font):
     screen.blit(box_image, box_rect)
     screen.blit(text_surface, text_rect)
 
+#gamemode2.gamemode_shmup()
+
 while True:
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
@@ -202,9 +203,9 @@ while True:
 
         # test
         #pygame.draw.circle(screen, "red", (player.sprite.rect.x + (player.sprite.rect.w / 2), player.sprite.rect.y + (player.sprite.rect.h / 2)), 4)
-        #print("🔎 NPCs loaded into the game:")
+        #print("NPCs loaded into the game:")
         #for npc in npcs:
-        #    print(f"🟢 NPC: {npc.name}, Bounding Box: {npc.bounding_box}, Dialogues: {npc.dialogues}")
+        #    print(f"NPC: {npc.name}, Bounding Box: {npc.bounding_box}, Dialogues: {npc.dialogues}")
 
     elif title :
         screen.fill("yellow")
