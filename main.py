@@ -153,6 +153,9 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE :
                 pause = not pause
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_s :
+                gamemode2.gamemode_shmup()
         # get past the title scree, if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN :
                 title = False
