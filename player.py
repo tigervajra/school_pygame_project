@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite) :
     def __init__(self, shmup=False, vectorpos=pygame.Vector2(0, 0)) :
         super().__init__()
         if (not shmup) :
-            self.image = pygame.image.load(path.join("data/sprites", "Th10Momiji.png")).convert_alpha()
+            self.image = pygame.image.load(path.join("data/sprites", "crusader01.png")).convert_alpha()
         else :
             self.image = pygame.image.load(path.join("data/sprites", "urgurg.png")).convert_alpha()
         self.rect = self.image.get_rect()
@@ -27,12 +27,16 @@ class Player(pygame.sprite.Sprite) :
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
+            self.image = pygame.image.load(path.join("data/sprites", "backviewcrusader01.png")).convert_alpha()
             self.pos.y -= self.speed * dt
         if keys[pygame.K_DOWN]:
+            self.image = pygame.image.load(path.join("data/sprites", "crusader01.png")).convert_alpha()
             self.pos.y += self.speed * dt
         if keys[pygame.K_LEFT]:
+            self.image = pygame.image.load(path.join("data/sprites", "sideviewcrusader2.png")).convert_alpha()
             self.pos.x -= self.speed * dt
         if keys[pygame.K_RIGHT]:
+            self.image = pygame.image.load(path.join("data/sprites", "sideviewcrusader.png")).convert_alpha()
             self.pos.x += self.speed * dt
 
         if (self.isshmup) :
