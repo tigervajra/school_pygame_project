@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="14">
- <editorsettings>
-  <export format="tmx"/>
- </editorsettings>
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="6">
  <tileset firstgid="1" source="../tsx/cpa_.tsx"/>
  <tileset firstgid="37" source="../tsx/Tileset.tsx"/>
- <tileset firstgid="309" source="../tsx/rat-tailed mulkner.tsx"/>
- <layer id="5" name="draw_below" width="20" height="12">
+ <layer id="1" name="draw_below" width="20" height="12">
   <data encoding="csv">
-23,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
-27,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,
+14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,
 227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
 227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
 227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
@@ -22,7 +18,7 @@
 227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227
 </data>
  </layer>
- <layer id="6" name="draw_ontop" width="20" height="12">
+ <layer id="2" name="draw_ontop" width="20" height="12">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -38,30 +34,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="objects" visible="0">
-  <object id="3" gid="29" x="64" y="192" width="64" height="64">
-   <properties>
-    <property name="lever" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="7" gid="310" x="0" y="320" width="64" height="64">
-   <properties>
-    <property name="dialogue" type="file" value="dialogues/lilhelper1.txt"/>
-    <property name="npc" value="lil helper.exe"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="12" gid="21" x="0" y="64" width="64" height="64">
-   <properties>
-    <property name="appear2" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="13" gid="25" x="0" y="128" width="64" height="64">
-   <properties>
-    <property name="appear1" type="bool" value="true"/>
-    <property name="map_name" value="map2.tmx"/>
-    <property name="warp" type="bool" value="true"/>
-   </properties>
-  </object>
+ <objectgroup id="3" name="objects">
+  <object id="5" name="spawn" x="640" y="704" width="64" height="64"/>
  </objectgroup>
 </map>

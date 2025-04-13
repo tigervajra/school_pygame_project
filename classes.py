@@ -1,7 +1,7 @@
 import pygame
 
 class Tile(pygame.sprite.Sprite) :
-    def __init__(self, image, pos, is_solid, npc=None) :
+    def __init__(self, image, pos, is_solid=False, npc=None) :
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect(topleft = pygame.Vector2(pos))
