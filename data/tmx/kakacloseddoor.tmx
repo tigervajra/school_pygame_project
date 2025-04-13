@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="15" height="9" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="14">
+ <editorsettings>
+  <export format="tmx"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../tsx/cpa_.tsx"/>
+ <tileset firstgid="37" source="../tsx/Tileset.tsx"/>
+ <tileset firstgid="309" source="../tsx/rat-tailed mulkner.tsx"/>
+ <layer id="5" name="draw_below" width="15" height="9">
+  <data encoding="csv">
+23,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+27,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
+227,227,227,227,227,227,227,227,227,227,227,227,227,227,227
+</data>
+ </layer>
+ <layer id="6" name="draw_ontop" width="15" height="9">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="3" name="objects">
+  <object id="3" gid="29" x="60" y="176" width="64" height="64">
+   <properties>
+    <property name="lever" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="7" gid="310" x="-6.72727" y="237.091" width="64" height="64">
+   <properties>
+    <property name="dialogue" type="file" value="dialogues/lilhelper1.txt"/>
+    <property name="npc" value="lil helper.exe"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="12" gid="21" x="0" y="64" width="64" height="64">
+   <properties>
+    <property name="appear2" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="13" gid="25" x="0" y="128" width="64" height="64">
+   <properties>
+    <property name="appear1" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

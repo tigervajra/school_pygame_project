@@ -14,12 +14,19 @@ class Tile(pygame.sprite.Sprite) :
 class NPC(pygame.sprite.Sprite):
     def __init__(self, images, positions, name, dialogues):
         super().__init__()
-        self.images = images  # List of images for each tile part
-        self.rects = [img.get_rect(topleft=pos) for img, pos in zip(images, positions)]
+        self.images = images
+        self.positions = positions
         self.name = name
         self.dialogues = dialogues
         self.current_dialogue = 0
         self.interacting = False
+
+        # For drawing: use the first tile
+        self.image = self.images[0]
+        self.rect = self.image.get_rect(topleft=(int(self.positions[0][0]), int(self.positions[0][1])))
+
+        # For collision: use all tiles
+        self.rects = [img.get_rect(topleft=(int(x), int(y))) for img, (x, y) in zip(images, positions)]
 
         # Define an overall bounding box for the NPC based on all tiles
         min_x = min(pos[0] for pos in positions)
