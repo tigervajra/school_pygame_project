@@ -49,9 +49,34 @@ def load_levers(tmx):
         if getattr(obj, "lever", False):
             levers.append(obj)
     return levers
+ 
+def get_animation_frames(tmx, gid):
+    if gid is None or gid <= 0:
+        print(f"❌ Invalid GID: {gid}")
+        return []
+
+    try:
+        tile_image = tmx.get_tile_image_by_gid(gid)
+    except Exception as e:
+        print(f"❌ Failed to get tile image for gid={gid}: {e}")
+        return []
+
+    if not tile_image:
+        print(f"⚠️ No image found for gid={gid}")
+        return []
+
+    # Try to extract animation using tile_properties (if available)
+    tile_props = tmx.tile_properties.get(gid, {})
+    animation_frames = tile_props.get("frames", None)
+
+    if animation_frames:
+        print(f"✅ Found animation via properties: {len(animation_frames)} frames")
+        return [tmx.get_tile_image_by_gid(f.gid) for f in animation_frames]
+
+    print(f"ℹ️ No animation found for gid={gid}. Using static image.")
+    return [tile_image]
 
 def load_level(map_name):
-
     tmxdata = load_pygame(path.join("data/tmx", map_name))
     tiles_below = pygame.sprite.Group()
     tiles_top = pygame.sprite.Group()
@@ -85,6 +110,11 @@ def load_level(map_name):
 
     for obj in tmxdata.objects:
         if "npc" in obj.properties:
+            gid = getattr(obj, "gid", None)
+            if gid is None or gid <= 0:
+                print(f"⚠️ Skipping NPC object with invalid gid: {obj.name}")
+                continue
+            
             npc_name = obj.properties["npc"]
 
             solid = obj.properties.get("solid", False)
@@ -100,6 +130,9 @@ def load_level(map_name):
             tile_image = obj.image.copy()
             pos = (obj.x, obj.y)
 
+            moving = obj.properties.get("moving", False)
+            frames = get_animation_frames(tmxdata, gid)
+
             dialogue_lines = ["..."]
             if "dialogue" in obj.properties:
                 dialogue_path = path.join("data", obj.properties["dialogue"])
@@ -109,7 +142,13 @@ def load_level(map_name):
                 except FileNotFoundError:
                     print(f"Dialogue file for {npc_name} not found: {dialogue_path}")
 
-            npc = classes.NPC([tile_image], [pos], npc_name, dialogue_lines)
+            if moving:
+                print(f"🚶 Spawning animated NPC: {npc_name}")
+                npc = classes.AnimatedMovingNPC(frames, pos, npc_name, dialogue_lines)
+            else:
+                print(f"🗣️ Spawning static NPC: {npc_name}")
+                npc = classes.NPC(frames, [pos], npc_name, dialogue_lines)
+
             npc_group.add(npc)
             print(f"Loaded NPC: {npc_name} at {pos} with {tile_image}")
 
@@ -158,6 +197,7 @@ def draw_levers(screen, tmx, levers, flipped=False):
                 else:
                     image = image.copy()
                 screen.blit(image, (lever.x, lever.y))
+
 
 def show_player_coords(player) :
     coords_text = test_font.render(f"Player(x, y) = {player.pos.x, player.pos.y}", False, "white")
@@ -253,7 +293,7 @@ while True:
         # draw the player
         player_char.draw(screen)
 
-        npcs.update()
+        npcs.update(player.dt)
 
         npcs.draw(screen)
 
@@ -269,7 +309,7 @@ while True:
                     tiles_below.remove(tile)
             for warp_rect, map_name in warp_tiles:
                 if player_char.sprite.rect.colliderect(warp_rect):
-                    tmx, tiles_below, tiles_top, door_parts, levers, npcs, solid_rects, warp_tiles, spawn_point = load_level(map_name)
+                    tmx, tiles_below, tiles_top, door_parts, levers, npcs, solid_npc_rects, warp_tiles, spawn_point = load_level(map_name)
                     # Warp player to center/spawn
                     player_char.sprite.pos = pygame.Vector2(spawn_point)
                     player_char.sprite.update_rect()

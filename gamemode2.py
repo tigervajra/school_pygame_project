@@ -5,7 +5,7 @@ import random
 from sys import exit
 from os import path
 
-def gamemode_shmup():
+def gamemode_shmup(level):
     screen = pygame.display.set_mode((756, 1008))
     pygame.display.set_caption("hawk tuah")
 

@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="6">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="19">
+ <editorsettings>
+  <export format="tmx"/>
+ </editorsettings>
  <tileset firstgid="1" source="../tsx/cpa_.tsx"/>
  <tileset firstgid="37" source="../tsx/Tileset.tsx"/>
- <layer id="1" name="draw_below" width="20" height="12">
+ <tileset firstgid="309" source="../tsx/rat-tailed mulkner.tsx"/>
+ <tileset firstgid="316" source="../tsx/hater.tsx"/>
+ <tileset firstgid="317" source="../tsx/hater2.tsx"/>
+ <tileset firstgid="318" source="../tsx/hater3.tsx"/>
+ <tileset firstgid="319" source="../../../../../Downloads/rat-tailed mulkner.tsx"/>
+ <layer id="10" name="draw_below" width="20" height="12">
   <data encoding="csv">
 14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,
-14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227
+9,10,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,20,
+14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,24,
+51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,46,47,
+51,51,51,49,37,37,37,37,37,37,37,37,37,37,37,37,37,37,42,41,
+51,51,51,40,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,41,
+51,51,51,40,51,51,47,38,38,38,38,38,38,38,38,38,38,38,38,48,
+51,51,51,40,51,51,41,51,51,51,51,51,51,51,51,51,51,51,51,51,
+51,51,51,40,51,51,41,51,51,51,51,51,51,51,51,51,51,51,51,51,
+51,51,51,40,51,51,41,51,51,51,51,51,51,51,51,51,51,51,51,51,
+51,51,51,40,51,51,41,51,51,51,51,51,51,51,51,51,51,51,51,51,
+51,51,51,40,51,51,41,51,51,51,51,51,51,51,51,51,51,51,51,51
 </data>
  </layer>
- <layer id="2" name="draw_ontop" width="20" height="12">
+ <layer id="11" name="draw_ontop" width="20" height="12">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,5,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -34,7 +42,34 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="objects">
-  <object id="5" name="spawn" x="640" y="704" width="64" height="64"/>
+ <objectgroup id="12" name="objects">
+  <object id="10" gid="316" x="1216" y="256" width="64" height="64">
+   <properties>
+    <property name="npc" value="troll3"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="11" gid="317" x="1152" y="256" width="64" height="64">
+   <properties>
+    <property name="npc" value="troll2"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="12" gid="318" x="1088" y="256" width="64" height="64">
+   <properties>
+    <property name="npc" value="troll1"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="spawn" x="264.216" y="699.317" width="107.789" height="44.6932"/>
+  <object id="16" x="1460.42" y="-170.886"/>
+  <object id="18" gid="319" x="192" y="320" width="64" height="64">
+   <properties>
+    <property name="dialogue" type="file" value="dialogues/lilhelper2.txt"/>
+    <property name="moving" type="bool" value="true"/>
+    <property name="npc" value="lil helper.exe"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

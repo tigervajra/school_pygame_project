@@ -56,3 +56,114 @@ class NPC(pygame.sprite.Sprite):
     def collides_with(self, player_rect):
         collision = any(player_rect.colliderect(rect) for rect in self.rects)
         return collision
+
+class AnimatedMovingNPC(pygame.sprite.Sprite):
+    def __init__(self, frames, pos, name, dialogue=None, speed=2, patrol_distance=100):
+        super().__init__()
+        self.frames = frames
+        self.image = frames[0]
+        self.rect = self.image.get_rect(topleft=pos)
+
+        self.name = name
+        self.dialogue = dialogue or []
+        self.dialogue_phase_1 = []  # You can load a second dialogue file or hardcode it
+        self.phase = 0
+        self.dialogue_index = 0
+        self.interacting = False
+
+        self.speed = speed
+        self.direction = 1
+        self.patrol_distance = patrol_distance
+        self.start_x = pos[0]
+        self.elapsed = 0
+        self.frame_index = 0
+        
+        self.moving_to_target = False
+        self.target_pos = self.rect.topleft
+    
+    def update(self, dt):
+        if self.interacting:
+            return  # Pause during dialogue
+
+        if self.moving_to_target:
+            self.elapsed += dt
+            if self.elapsed > 0.1:
+                self.frame_index = (self.frame_index + 1) % len(self.frames)
+                self.image = self.frames[self.frame_index]
+                self.elapsed = 0
+        else:
+            self.image = self.frames[0]  # default standing frame
+
+        if self.moving_to_target:
+            direction = pygame.Vector2(self.target_pos) - pygame.Vector2(self.rect.topleft)
+            if direction.length_squared() < 1:
+                self.rect.topleft = self.target_pos
+                self.moving_to_target = False
+            else:
+                step = direction.normalize() * self.speed
+                self.rect.x += int(step.x)
+                self.rect.y += int(step.y)
+        else:
+            # Normal patrol movement (optional)
+            pass
+
+
+    def collides_with(self, player_rect):
+        return self.rect.colliderect(player_rect)
+
+    def start_interaction(self):
+        self.interacting = True
+        self.dialogue_index = 0
+
+        # Different dialogue if phase has changed
+        if self.phase == 1 and self.dialogue_phase_1:
+            self.dialogue = self.dialogue_phase_1
+
+        return self.dialogue[0] if self.dialogue else ""
+
+    def next_dialogue(self):
+        self.dialogue_index += 1
+
+        if self.dialogue_index < len(self.dialogue):
+            line = self.dialogue[self.dialogue_index]
+
+            # Handle command lines
+            if line.startswith("::"):
+                self.handle_command(line)
+                return self.next_dialogue()  # skip command display
+
+            return line
+        else:
+            self.interacting = False
+            return ""
+
+
+    def move_to(self, x, y):
+        self.target_pos = pygame.Vector2(x, y)
+        self.moving_to_target = True
+
+    def handle_command(self, line):
+        parts = line.strip()[2:].split()
+        if not parts:
+            return
+
+        cmd = parts[0]
+        args = parts[1:]
+
+        if cmd == "move_right_tiles" and args:
+            try:
+                tiles = int(args[0])
+                pixels = tiles * 64
+                self.move_to(self.rect.x + pixels, self.rect.y)
+                self.phase = 1
+            except ValueError:
+                print(f"⚠️ Invalid tile count: {args[0]}")
+
+        elif cmd == "move_right" and args:
+            try:
+                pixels = int(args[0])
+                print(f"🧭 Command: moving {self.name} right by {pixels} pixels")
+                self.move_to(self.rect.x + pixels, self.rect.y)
+                self.phase = 1
+            except ValueError:
+                print(f"⚠️ Invalid pixel value: {args[0]}")
