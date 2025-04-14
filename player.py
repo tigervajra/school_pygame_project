@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite) :
         self.speed = 320
         self.shoot_cooldown = 0
         self.isshmup = shmup
+        self.frozen = False
 
     def player_input(self) :
         if dialogue_active:  # Prevent movement when in dialogue
@@ -56,6 +57,8 @@ class Player(pygame.sprite.Sprite) :
 
     def update(self) :
         self.update_rect()
+        if getattr(self, 'frozen', False):
+            return  # skip movement
         self.player_input()
 
     def shoot(self):

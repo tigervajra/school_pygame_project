@@ -4,7 +4,10 @@ Don't take it personally though...
 They hate everything...
 Can you help me get them out of the way?
 They really are all bark and no bite, though.
+::freeze_player
 ::move_right_tiles 13
+::unfreeze_player
+::set_phase 1
 ---
 They are right here.
 You know what to do...

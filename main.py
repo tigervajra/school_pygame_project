@@ -76,6 +76,27 @@ def get_animation_frames(tmx, gid):
     print(f"ℹ️ No animation found for gid={gid}. Using static image.")
     return [tile_image]
 
+def load_dialogue_phases(path_to_file):
+    try:
+        with open(path_to_file, "r", encoding="utf-8") as f:
+            lines = f.read().splitlines()
+    except FileNotFoundError:
+        print(f"❌ Dialogue file not found: {path_to_file}")
+        return {0: []}
+
+    phases = {}
+    current_phase = 0
+    phases[current_phase] = []
+
+    for line in lines:
+        if line.strip() == "---":
+            current_phase += 1
+            phases[current_phase] = []
+        else:
+            phases[current_phase].append(line)
+
+    return phases
+
 def load_level(map_name):
     tmxdata = load_pygame(path.join("data/tmx", map_name))
     tiles_below = pygame.sprite.Group()
@@ -117,11 +138,9 @@ def load_level(map_name):
             
             npc_name = obj.properties["npc"]
 
-            solid = obj.properties.get("solid", False)
-
-            if solid:
-                npc_rect = classes.Tile(obj.image, (int(obj.x), int(obj.y)), True)
-                solid_npc_rects.add(npc_rect)
+            #if obj.properties.get("solid", False) :
+                #npc_rect = classes.Tile(obj.image, (int(obj.x), int(obj.y)), True)
+                #solid_npc_rects.add(npc)
 
             if not obj.image:
                 print(f"Skipping NPC '{npc_name}' — no image found on object.")
@@ -133,21 +152,22 @@ def load_level(map_name):
             moving = obj.properties.get("moving", False)
             frames = get_animation_frames(tmxdata, gid)
 
-            dialogue_lines = ["..."]
+            dialogue_lines = {0: ["..."]}
             if "dialogue" in obj.properties:
                 dialogue_path = path.join("data", obj.properties["dialogue"])
-                try:
-                    with open(dialogue_path, "r", encoding="utf-8") as f:
-                        dialogue_lines = f.read().splitlines()
-                except FileNotFoundError:
-                    print(f"Dialogue file for {npc_name} not found: {dialogue_path}")
+                dialogue_lines = load_dialogue_phases(dialogue_path)
 
-            if moving:
-                print(f"🚶 Spawning animated NPC: {npc_name}")
-                npc = classes.AnimatedMovingNPC(frames, pos, npc_name, dialogue_lines)
-            else:
-                print(f"🗣️ Spawning static NPC: {npc_name}")
-                npc = classes.NPC(frames, [pos], npc_name, dialogue_lines)
+            npc = classes.NPC(
+                frames,
+                pos,
+                npc_name,
+                dialogue_phases=dialogue_lines,
+                speed=2 if moving else 0,
+                patrol_distance=0  # or set from a Tiled property
+            )
+
+            if obj.properties.get("solid", False) :
+                solid_npc_rects.add(npc)
 
             npc_group.add(npc)
             print(f"Loaded NPC: {npc_name} at {pos} with {tile_image}")
@@ -214,6 +234,10 @@ def check_collision_npcs(player, npcs):
     return None
 
 def draw_dialogue_box(screen, text, font):
+    if not isinstance(text, str):
+        print(f"⚠️ Tried to render non-string text: {text} ({type(text)})")
+        return  # skip drawing
+
     box_image = pygame.image.load(path.join("data/sprites", "dialogbox.png")).convert()
     box_rect = box_image.get_rect(midbottom = ((screen.get_width() / 2), (screen.get_height() / 1.05)))
 
@@ -256,6 +280,15 @@ while True:
                 if event.key == pygame.K_e:  # Press 'E' to interact
                     if npc and npc.interacting:  # Ensure npc is not None
                         dialogue_text = npc.next_dialogue()
+                        if npc.freeze_player:
+                            print("✅ Player frozen")
+                            player_char.sprite.frozen = True
+                            npc.freeze_player = False
+
+                        if npc.unfreeze_player:
+                            print("🔥 Player unfrozen")
+                            player_char.sprite.frozen = False
+                            npc.unfreeze_player = False
                         if npc and not npc.interacting:  # Check again before setting dialogue_active
                             player.dialogue_active = False  # Unfreeze player when dialogue ends
                     else:
@@ -273,7 +306,8 @@ while True:
     if (not pause and not title) :
         screen.fill("black")
 
-        player_char.update()
+        if not player_char.sprite.frozen:
+            player_char.update()
 
         if (player_char.sprite.collide_solid_group(tiles_below)) :
             player_char.sprite.pos = player_char.sprite.initial_pos
@@ -297,6 +331,17 @@ while True:
 
         npcs.draw(screen)
 
+        if npc:
+            if npc.freeze_player:
+                player_char.sprite.frozen = True
+                npc.freeze_player = False  # reset the flag
+
+            if npc.unfreeze_player:
+                player_char.sprite.frozen = False
+                npc.unfreeze_player = False
+            if dialogue_text:
+                draw_dialogue_box(screen, dialogue_text, test_font)  # Draw the dialogue box every frame
+
         tiles_top.draw(screen)
 
         if door_triggered:
@@ -314,9 +359,6 @@ while True:
                     player_char.sprite.pos = pygame.Vector2(spawn_point)
                     player_char.sprite.update_rect()
                     break
-
-        if npc and npc.interacting:
-            draw_dialogue_box(screen, dialogue_text, test_font)  # Draw the dialogue box every frame
 
         # collision
         # draw collision before update
