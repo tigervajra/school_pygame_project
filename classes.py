@@ -27,6 +27,7 @@ class NPC(pygame.sprite.Sprite):
         self.unfreeze_player = False
         self.pending_commands = []  # queue of commands
         self.deferred_commands = []
+        self.start_level = None
 
         # Movement
         self.speed = speed
@@ -127,7 +128,7 @@ class NPC(pygame.sprite.Sprite):
                 tiles = int(args[0])
                 pixels = tiles * 64
                 self.move_to(self.rect.x + pixels, self.rect.y)
-                
+
                  # ✅ Queue unfreeze if it's the next command
                 future_lines = self.dialogue_phases.get(self.phase, [])[self.dialogue_index:]
             except ValueError:
@@ -140,10 +141,15 @@ class NPC(pygame.sprite.Sprite):
                 pass
         elif cmd == "freeze_player":
             self.freeze_player = True  # we'll notify main loop
-            print(f"[{self.name}] set freeze_player = True")
         elif cmd == "unfreeze_player":
             self.unfreeze_player = True
-            print(f"[{self.name}] set unfreeze_player = True")
+        elif cmd == "start_level" and args:
+            try:
+                level = int(args[0])
+                self.start_level = level
+                print(f"[{self.name}] wants to start shmup level {level}")
+            except ValueError:
+                print(f"⚠️ Invalid level number: {args[0]}")
 
     def collides_with(self, other_rect):
         return self.rect.colliderect(other_rect)

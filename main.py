@@ -49,7 +49,7 @@ def load_levers(tmx):
         if getattr(obj, "lever", False):
             levers.append(obj)
     return levers
- 
+
 def get_animation_frames(tmx, gid):
     if gid is None or gid <= 0:
         print(f"❌ Invalid GID: {gid}")
@@ -135,7 +135,7 @@ def load_level(map_name):
             if gid is None or gid <= 0:
                 print(f"⚠️ Skipping NPC object with invalid gid: {obj.name}")
                 continue
-            
+
             npc_name = obj.properties["npc"]
 
             #if obj.properties.get("solid", False) :
@@ -267,9 +267,6 @@ while True:
             if event.key == pygame.K_ESCAPE :
                 pause = not pause
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_s :
-                gamemode2.gamemode_shmup()
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_d :
                 door_triggered = True
                 appear_timer = 0
@@ -305,6 +302,22 @@ while True:
 
     if (not pause and not title) :
         screen.fill("black")
+
+        if npc and npc.start_level is not None:
+            if gamemode2.gamemode_shmup(npc.start_level) == "won":
+                npc.start_level = None
+            player_char.sprite.frozen = False
+            screen = pygame.display.set_mode((1280, 720))
+            pygame.display.set_caption("hawk tuah")
+
+        if npc and npc.start_level is not None:
+            # Optional: cleanup before switching modes
+            #pygame.mixer.stop()
+            #pygame.display.quit()
+            print(f"Launching shmup level {npc.start_level}")
+            gamemode2.gamemode_shmup(npc.start_level)
+            # Exit or break from your main loop if necessary
+            break
 
         if not player_char.sprite.frozen:
             player_char.update()

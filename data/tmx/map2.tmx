@@ -9,7 +9,6 @@
  <tileset firstgid="316" source="../tsx/hater.tsx"/>
  <tileset firstgid="317" source="../tsx/hater2.tsx"/>
  <tileset firstgid="318" source="../tsx/hater3.tsx"/>
- <tileset firstgid="319" source="../../../../../Downloads/rat-tailed mulkner.tsx"/>
  <layer id="10" name="draw_below" width="20" height="12">
   <data encoding="csv">
 14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,
@@ -45,6 +44,7 @@
  <objectgroup id="12" name="objects">
   <object id="10" gid="316" x="1216" y="256" width="64" height="64">
    <properties>
+    <property name="dialogue" type="file" value="dialogues/troll3.txt"/>
     <property name="npc" value="troll3"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
@@ -63,7 +63,7 @@
   </object>
   <object id="14" name="spawn" x="264.216" y="699.317" width="107.789" height="44.6932"/>
   <object id="16" x="1460.42" y="-170.886"/>
-  <object id="18" gid="319" x="192" y="320" width="64" height="64">
+  <object id="18" gid="309" x="192" y="320" width="64" height="64">
    <properties>
     <property name="dialogue" type="file" value="dialogues/lilhelper2.txt"/>
     <property name="moving" type="bool" value="true"/>
