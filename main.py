@@ -1,5 +1,5 @@
 import pygame
-import classes, player, gamemode2
+import classes, player, gamemode2, menuu
 from pytmx.util_pygame import load_pygame
 from os import path
 from sys import exit
@@ -22,9 +22,6 @@ npc = None
 # text
 text_display = test_font.render("PAUSE", False, "black")
 text_rect = text_display.get_rect(topleft = (0, 0))
-
-game_name = test_font.render("The Fart, Press Enter", False, ("Blue"))
-game_name_rect = game_name.get_rect(center = ((screen.get_width() / 2), (screen.get_height() / 2)))
 
 # test
 toggle_collision_spr = False
@@ -392,8 +389,10 @@ while True:
         draw_door_parts(screen, tmx, door_parts, appear_timer)
 
     elif title :
-        screen.fill("yellow")
-        screen.blit(game_name, game_name_rect)
+        menuu.menu()
+        title = False
+        screen = pygame.display.set_mode((1280, 720))
+        pygame.display.set_caption("hawk tuah")
 
     elif pause :
         pygame.draw.rect(screen, "white", text_rect)
